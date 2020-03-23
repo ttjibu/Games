@@ -1,10 +1,8 @@
 window.onload = function() {
-	function getEle(e) {
-		return document.getElementById(e);
-	}
-	
-	const ROUND = 10, LEFT = 1, RIGHT = 100;
-	let round = 0, ans = initialize_ans() ,addonused = false;
+	$('#intermediate').prop("checked",true);
+	const ROUND = 10, LEFT = 1, RIGHT = 100,
+		  OPTIONID = ['#junior', '#intermediate', '#senior', '#custom'];
+	let round = 0, ans = initialize_ans(), addonused = false, mode;
 	function initialize_ans() {
 		let x = Math.floor(Math.random() * 100);
 		x = (x + 1) % 100;	//防止出现‘0’
@@ -36,7 +34,7 @@ window.onload = function() {
 			}
 		}
 		Btn.textContent = '再来一局';
-		Btn.focus();
+//		Btn.focus();
 	}
 	
 	function addon() {
@@ -49,7 +47,7 @@ window.onload = function() {
 		round++;
 		let content = Input.value;
 		
-		if (content === 'SanThiaGo' || content === 'hy' || content === '黄旸') {
+		if (content === 'SanThiaGo' || content === 'hy' || content === '黄旸' || content === 'HY') {
 			addon();
 			return;
 		}		
@@ -120,9 +118,30 @@ window.onload = function() {
 			run();
 		}
 	}
+
+	function record() {
+		for(let i = 0; i < 4; i++) {
+			if ($(OPTIONID[i]).prop("checked")) {
+				mode = i;
+				return;
+			}
+		}
+	}
+	
+	function resume() {
+		$(OPTIONID[mode]).prop('checked', true);
+	}
+	
+	function modify() {
+		
+	}
+	
 	Input.value = '';
 	Input.focus();
 	Btn.addEventListener('click', run);
 	TellAns.addEventListener('click', tellans);
-	document.addEventListener('keydown', f);
+	document.addEventListener('keyup', f);
+	Setting.addEventListener('click', record);
+	Cancel.addEventListener('click', resume);
+	Comfirm.addEventListener('click', modify)
 };
