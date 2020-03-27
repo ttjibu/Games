@@ -1,7 +1,7 @@
 window.onload = function() {
 	let ROUND = 10, LEFT = 1, RIGHT = 100;
 	const OPTIONID = ['#custom', '#junior', '#intermediate', '#senior'];
-	let round = 0, ans = initialize_ans(), addonused = false, mode;
+	let round = 0, ans = initialize_ans(), mode;
 	
 	$('#intermediate').prop("checked",true);
 	Input.value = '';
@@ -16,7 +16,6 @@ window.onload = function() {
 	}
 	
 	function run() {
-		if (addonused) {return ;}
 		if (Btn.textContent === '确定') {
 			check();
 		}
@@ -46,7 +45,10 @@ window.onload = function() {
 	function addon() {
 		Result.textContent = '你赢了。';
 		AddOn.textContent = '是的';
-		addonused = true;
+		Btn.disabled = true;
+		TellAns.disabled = true;
+		Rules.disabled = true;
+		Setting.disabled = true;
 	}
 	
 	function check() {
@@ -116,7 +118,6 @@ window.onload = function() {
 	}
 	
 	function tellans() {
-		if(addonused) {return;}
 		endgame(-1);	
 	}
 	
@@ -137,6 +138,7 @@ window.onload = function() {
 	
 	function resume() {
 		$(OPTIONID[mode]).prop('checked', true);
+//		document.getElementById(OPTIONID[mode]).checked = true;
 	}
 	
 	function modify() {
