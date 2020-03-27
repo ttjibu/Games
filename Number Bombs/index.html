@@ -12,7 +12,7 @@
 
 <body>
 	<div class="border container-fluid" style="width: 380px; margin-top: 120px; height: inherit">
-		<p>请输入[1, 100]内的整数</p>
+		<p id="R_ange"></p>
 		<input type="text" id="Input">
 		<button id="Btn" type="button" class="btn btn-secondary">确定</button>
 		<div id="AddOn"></div>
@@ -70,8 +70,10 @@
 			  		<label for="intermediate">中级</label>	<br>
 			  		<input type="radio" name="mode" value="3" id="senior">
 			  		<label for="senior">高级</label>	<br>
+			  		<div style="display: none">
 			  		<input type="radio" name="mode" value="0" id="custom">
 			  		<label for="custom">自定义</label>		<br>
+			  		</div>
 			  	</form>
 			  </div>
 			  <div class="modal-footer">
