@@ -1,11 +1,17 @@
 window.onload = function() {
-	$('#intermediate').prop("checked",true);
-	const ROUND = 10, LEFT = 1, RIGHT = 100,
-		  OPTIONID = ['#junior', '#intermediate', '#senior', '#custom'];
+	let ROUND = 10, LEFT = 1, RIGHT = 100;
+	const OPTIONID = ['#custom', '#junior', '#intermediate', '#senior'];
 	let round = 0, ans = initialize_ans(), addonused = false, mode;
+	
+	$('#intermediate').prop("checked",true);
+	Input.value = '';
+	Input.focus();
+	R_ange.textContent = '[' + LEFT + ', ' + RIGHT + ']';
+	
 	function initialize_ans() {
-		let x = Math.floor(Math.random() * 100);
-		x = (x + 1) % 100;	//防止出现‘0’
+		let dig = Math.log10(RIGHT - LEFT);
+		let x = Math.floor(Math.random() * (10 ** (dig + 1))) % (RIGHT - LEFT);
+		x += LEFT;
 		return x;
 	}
 	
@@ -106,6 +112,7 @@ window.onload = function() {
 		AddOn.textContent = '';
 		Input.value = '';
 		Input.focus();
+		R_ange.textContent = '[' + LEFT + ', ' + RIGHT + ']';
 	}
 	
 	function tellans() {
@@ -133,11 +140,27 @@ window.onload = function() {
 	}
 	
 	function modify() {
-		
+		record();
+		switch(mode) {
+			case 1:{
+				LEFT = 1, RIGHT = 20;
+				break;
+			}
+			case 2:{
+				LEFT = 1, RIGHT = 100;
+				break;
+			}
+			case 3:{
+				LEFT = 1, RIGHT = 1000;
+				break;
+			}
+			case 0:{
+				break;
+			}
+		}
+		restart();
 	}
 	
-	Input.value = '';
-	Input.focus();
 	Btn.addEventListener('click', run);
 	TellAns.addEventListener('click', tellans);
 	document.addEventListener('keyup', f);
