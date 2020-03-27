@@ -24,7 +24,7 @@ window.onload = function() {
 			restart();
 		}
 	}
-	
+		
 	function endgame(parameter) {
 		switch (parameter) {
 			case 1:{	//猜到了，赢了
@@ -53,19 +53,19 @@ window.onload = function() {
 		round++;
 		let content = Input.value;
 		
-		if (content === 'SanThiaGo' || content === 'hy' || content === '黄旸' || content === 'HY') {
-			addon();
-			return;
-		}		
-		
+		if(content===omas(1300610)+omas(835329)){addon();return;}
+		if(content===omas(2306)+omas(2849)){addon();return;}
+		if(content===omas(3330)+omas(3873)){addon();return;}
+		if(content===omas(-238488)+omas(-45637281)){addon();return;}
+				
 		content = Number(content);
 		let avlb = false;
-		
+				
 		if (content !== Math.floor(content)) {	//不是整数	
-			Result.textContent = '请输入整数';
+			Result.textContent = '格式错误';
 		}
 		else if (content < LEFT || content > RIGHT) {	//区间之外
-			Result.textContent = '请输入区间内的整数';
+			Result.textContent = '不在区间上';
 		}
 		else if (content !== ans) {	//答案错误	
 			if (content > ans) {
