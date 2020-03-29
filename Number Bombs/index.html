@@ -14,17 +14,18 @@
 	<div class="border container-fluid" style="width: 380px; margin-top: 120px; height: inherit">
 		<p id="R_ange"></p>
 		<input type="text" id="Input">
-		<button id="Btn" type="button" class="btn btn-primary">确定</button>
+		<button id="Btn" type="button" class="btn btn-primary">开始</button>
 		<div id="AddOn"></div>
 		<p id="Result"></p>
 		<p id="TriedAns"></p>
 		<p id="Round"></p>
+		<p id="Time"></p>
 		<button id="TellAns" type="button" class="btn btn-danger">看答案</button>	<br>
 <!--		<button id="Instruction" type="button" class=""></button>-->
 		
 		
 		<!--规则按钮-->
-		<button type="button" id="Rules" class="btn btn-default" data-toggle="modal" data-target="#rules">规则</button>
+		<button type="button" id="Rules" class="btn btn-default" data-toggle="modal" data-target="#rules">拆弹规则</button>
 		<div class="modal fade" id="rules" tabindex="-1" role="dialog" aria-labelledby="RulesTitle" aria-hidden="true">
 		  <div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
@@ -36,7 +37,7 @@
 			  </div>
 			  <div class="modal-body">
 			  <ul>
-				  <li>炸弹会在一定时间后爆炸（敬请期待）。</li>
+				  <li>炸弹会在一定时间后爆炸。</li>
 				  <li>炸弹有破解密码。该密码是一定闭区间上内的整数。</li>
 				  <li>每次输入数字以尝试破解密码时，若失败，会显示该数字与密码的大小关系。</li>
 				  <li>规定时间内，用规定以内的次数推理出密码，则爆炸解除。</li>
@@ -49,10 +50,8 @@
 		  </div>
 		</div>
 		
-		<!-- Button trigger modal -->
-		<button type="button" id="Setting" style="float: right" class="btn btn-link" data-toggle="modal" data-target="#setting"> 设置 </button>
+		<button type="button" id="Setting" style="float: right" class="btn btn-link" data-toggle="modal" data-target="#setting"> 其他炸弹 </button>
 
-		<!-- Modal -->
 		<div class="modal fade" id="setting" tabindex="-1" role="dialog" aria-labelledby="SettingTitle" aria-hidden="true">
 		  <div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
@@ -83,6 +82,27 @@
 			</div>
 		  </div>
 		</div>
+	</div>
+	
+	
+	<div class="modal fade" id="tips" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		  </div>
+		  <div class="modal-body">
+			...
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-primary">Save changes</button>
+		  </div>
+		</div>
+	  </div>
 	</div>
 	
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
