@@ -1,12 +1,11 @@
 window.onload = function() {
-	let ROUND = 10, LEFT = 1, RIGHT = 100;
+	let ROUND = 10, LEFT = 1, RIGHT = 100, TIME = 30;
 	const OPTIONID = ['#custom', '#junior', '#intermediate', '#senior'];
-	let round = 0, ans = initialize_ans(), mode;
+	let round = 0, ans, mode, flag, count, ongame = false;
 	
 	$('#intermediate').prop("checked",true);
-	Input.value = '';
-	Input.focus();
-	R_ange.textContent = '[' + LEFT + ', ' + RIGHT + ']';
+	initialize();
+	Input.blur();
 	
 	function initialize_ans() {
 		let dig = Math.log10(RIGHT - LEFT);
@@ -15,21 +14,39 @@ window.onload = function() {
 		return x;
 	}
 	
+	function telltime(){
+		count--;
+		if(count <= 0) {
+			endgame(0);
+		}
+		let str = count;
+		if(str < 10) {
+			str = '0' + count;
+		}
+		Time.textContent = '剩余时间：' + str + ' s';
+	}
 	function run() {
-		if (Btn.textContent === '确定') {
+		if (Btn.textContent === '开始') {
+			Btn.textContent = '确定';
+			start();
+		}
+		else if (Btn.textContent === '确定') {
 			check();
 		}
 		else if (Btn.textContent === '再来一局') {
-			restart();
+			initialize();
+			Btn.textContent = '开始';
 		}
 	}
 		
 	function endgame(parameter) {
+		ongame = false;
+		clearInterval(flag);
 		switch (parameter) {
 			case 1:{	//猜到了，赢了
 				break;
 			}
-			case 0:{	//没猜到
+			case 0:{	//没猜到/时间到了
 				Result.textContent = '游戏结束';
 				break;
 			}
@@ -115,6 +132,30 @@ window.onload = function() {
 		Input.value = '';
 		Input.focus();
 		R_ange.textContent = '[' + LEFT + ', ' + RIGHT + ']';
+		count =  TIME;
+		Time.textContent = '剩余时间：' + count + ' s';
+		ongame = true;
+		flag = setInterval(telltime, 1000);
+	}
+	
+	function start() {
+		count =  TIME;
+		Time.textContent = '剩余时间：' + count + ' s';
+		ongame = true;
+		flag = setInterval(telltime, 1000);	
+		Input.focus();
+	}
+	function initialize() {
+		ans = initialize_ans();
+		round = 0;
+		
+		Result.textContent = '';
+		Round.textContent = '';
+		TriedAns.textContent = '';
+		Time.textContent = '';
+		Input.value = '';
+		Input.focus();
+		R_ange.textContent = '[' + LEFT + ', ' + RIGHT + ']';
 	}
 	
 	function tellans() {
@@ -122,11 +163,17 @@ window.onload = function() {
 	}
 	
 	function f(e) {
-		if (e.keyCode === 13) {
+		if (e.keyCode === 13 && round < ROUND) {
 			run();
 		}
 	}
 
+	function recordandactivate(){
+		record();
+		if(ongame) {
+//			Tips.dataset.toggle = 'modal';
+		}
+	}
 	function record() {
 		for(let i = 0; i < 4; i++) {
 			if ($(OPTIONID[i]).prop("checked")) {
@@ -134,6 +181,7 @@ window.onload = function() {
 				return;
 			}
 		}
+		
 	}
 	
 	function resume() {
@@ -142,31 +190,35 @@ window.onload = function() {
 	}
 	
 	function modify() {
+		if (ongame) {
+			clearInterval(flag);
+		}
 		record();
 		switch(mode) {
 			case 1:{
-				LEFT = 1, RIGHT = 20;
+				LEFT = 1, RIGHT = 20, TIME = 20;
 				break;
 			}
 			case 2:{
-				LEFT = 1, RIGHT = 100;
+				LEFT = 1, RIGHT = 100, TIME = 30;
 				break;
 			}
 			case 3:{
-				LEFT = 1, RIGHT = 1000;
+				LEFT = 1, RIGHT = 1000, TIME = 60;
 				break;
 			}
 			case 0:{
 				break;
 			}
 		}
-		restart();
+		initialize();
+		Btn.textContent = '开始';
 	}
 	
 	Btn.addEventListener('click', run);
 	TellAns.addEventListener('click', tellans);
-	document.addEventListener('keyup', f);
-	Setting.addEventListener('click', record);
+	document.addEventListener('keydown', f);
+	Setting.addEventListener('click', recordandactivate);
 	Cancel.addEventListener('click', resume);
-	Comfirm.addEventListener('click', modify)
+	Comfirm.addEventListener('click', modify);
 };
