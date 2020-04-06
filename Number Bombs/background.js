@@ -3,8 +3,9 @@ window.onload = function() {
 	const OPTIONID = ['#custom', '#junior', '#intermediate', '#senior'];
 	let round = 0, ans, mode, flag, count, ongame = false;
 	
-	$('#intermediate').prop("checked",true);
-	initialize();
+	$('#junior').prop("checked",true);
+	modify();
+//	initialize();
 	Input.blur();
 	
 	function initialize_ans() {
@@ -47,7 +48,7 @@ window.onload = function() {
 				break;
 			}
 			case 0:{	//没猜到/时间到了
-				Result.textContent = '游戏结束';
+				Result.textContent = '!! 炸弹炸了 !!';
 				break;
 			}
 			case -1:{	//看了答案
@@ -59,7 +60,8 @@ window.onload = function() {
 //		Btn.focus();
 	}
 	
-	function addon() {
+	function solve() {
+		clearInterval(flag);
 		Result.textContent = '你赢了。';
 		AddOn.textContent = '是的';
 		Btn.disabled = true;
@@ -72,10 +74,10 @@ window.onload = function() {
 		round++;
 		let content = Input.value;
 		
-		if(content===omas(1300610)+omas(835329)){addon();return;}
-		if(content===omas(2306)+omas(2849)){addon();return;}
-		if(content===omas(3330)+omas(3873)){addon();return;}
-		if(content===omas(-238488)+omas(-45637281)){addon();return;}
+		if(content===omas(1300610)+omas(835329)){solve();return;}
+		if(content===omas(2306)+omas(2849)){solve();return;}
+		if(content===omas(3330)+omas(3873)){solve();return;}
+		if(content===omas(-238488)+omas(-45637281)){solve();return;}
 				
 		content = Number(content);
 		let avlb = false;
@@ -168,11 +170,23 @@ window.onload = function() {
 		}
 	}
 
-	function recordandactivate(){
-		record();
+	function recordAndActivate(){
 		if(ongame) {
-//			Tips.dataset.toggle = 'modal';
+			if (confirm("当前炸弹未拆除，你确定要换炸弹吗？")) {
+				ongame = false;
+//				alert("bitch");
+				clearInterval(flag);
+			}
+			else {
+//				Setting.data.toggle = '';
+				Setting.setAttribute('data-toggle', '');
+				setTimeout(function () {
+					Setting.setAttribute('data-toggle', 'modal');
+				}, 10);
+				return;
+			}
 		}
+		record();
 	}
 	function record() {
 		for(let i = 0; i < 4; i++) {
@@ -218,7 +232,8 @@ window.onload = function() {
 	Btn.addEventListener('click', run);
 	TellAns.addEventListener('click', tellans);
 	document.addEventListener('keydown', f);
-	Setting.addEventListener('click', recordandactivate);
+	Setting.addEventListener('click', recordAndActivate);
 	Cancel.addEventListener('click', resume);
-	Comfirm.addEventListener('click', modify);
+	Confirm.addEventListener('click', modify);
+	
 };
