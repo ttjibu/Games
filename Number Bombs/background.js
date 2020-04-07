@@ -1,6 +1,7 @@
 window.onload = function() {
 	let ROUND = 10, LEFT = 1, RIGHT = 100, TIME = 30;
-	const OPTIONID = ['#custom', '#junior', '#intermediate', '#senior'];
+	const OPTIONID = ['#custom', '#junior', '#intermediate', '#senior'],
+		  BOMB = ['自定义炸弹', '低级炸弹', '中级炸弹', '高级炸弹'];
 	let round = 0, ans, mode, flag, count, ongame = false;
 	
 	$('#junior').prop("checked",true);
@@ -27,16 +28,16 @@ window.onload = function() {
 		Time.textContent = '剩余时间：' + str + ' s';
 	}
 	function run() {
-		if (Btn.textContent === '开始') {
+		if (Btn.textContent === '激活') {
 			Btn.textContent = '确定';
 			start();
 		}
 		else if (Btn.textContent === '确定') {
 			check();
 		}
-		else if (Btn.textContent === '再来一局') {
+		else if (Btn.textContent === '老子还要拆!' || Btn.textContent === '老子还能拆!') {
 			initialize();
-			Btn.textContent = '开始';
+			Btn.textContent = '激活';
 		}
 	}
 		
@@ -51,23 +52,28 @@ window.onload = function() {
 				Result.textContent = '!! 炸弹炸了 !!';
 				break;
 			}
-			case -1:{	//看了答案
-				Result.textContent = '答案是' + ans;
+			case -1:{	//看了密钥
+				Result.textContent = '密钥是' + ans;
 				break;
 			}
 		}
-		Btn.textContent = '再来一局';
-//		Btn.focus();
+		if(parameter > 0) {
+			Btn.textContent = '老子还能拆!';
+		}
+		else {
+			Btn.textContent = '老子还要拆!';
+		}
+		
 	}
 	
 	function solve() {
 		clearInterval(flag);
 		Result.textContent = '你赢了。';
-		AddOn.textContent = '是的';
+		Solve.textContent = '是的';
 		Btn.disabled = true;
 		TellAns.disabled = true;
 		Rules.disabled = true;
-		Setting.disabled = true;
+		Bomb.disabled = true;
 	}
 	
 	function check() {
@@ -88,28 +94,28 @@ window.onload = function() {
 		else if (content < LEFT || content > RIGHT) {	//区间之外
 			Result.textContent = '不在区间上';
 		}
-		else if (content !== ans) {	//答案错误	
+		else if (content !== ans) {	//密钥错误	
 			if (content > ans) {
-				Result.textContent = '比答案大';
+				Result.textContent = '比密钥数值大';
 			}
 			else {
-				Result.textContent = '比答案小';
+				Result.textContent = '比密钥数值小';
 			}
 			avlb = true;
 		}
-		else {		//答案正确	
-			Result.textContent = '答案正确';
+		else {		//密钥正确，拆弹成功!	
+			Result.textContent = '密钥正确，拆弹成功！';
 			avlb = true;
 		}
-		if (avlb) {	//答案有效，帮忙记录下来
+		if (avlb) {	//密钥有效，帮忙记录下来
 			if (TriedAns.textContent === '') {
-				TriedAns.textContent = '试过的答案：' + content;
+				TriedAns.textContent = content;
 			}
 			else {
 				TriedAns.textContent += ', ' + content;
 			}
 		}
-		Round.textContent = '还剩下' + (ROUND - round) + '次机会';
+		Round.textContent = '机会次数：' + (ROUND - round);
 		
 		Input.value = '';
 		if (content === ans) {
@@ -123,24 +129,25 @@ window.onload = function() {
 		}
 	}
 	
-	function restart() {
-		ans = initialize_ans();
-		Btn.textContent = '确定';
-		round = 0;
-		Result.textContent = '';
-		Round.textContent = '';
-		TriedAns.textContent = '';
-		AddOn.textContent = '';
-		Input.value = '';
-		Input.focus();
-		R_ange.textContent = '[' + LEFT + ', ' + RIGHT + ']';
-		count =  TIME;
-		Time.textContent = '剩余时间：' + count + ' s';
-		ongame = true;
-		flag = setInterval(telltime, 1000);
-	}
+//	function restart() {
+//		ans = initialize_ans();
+//		Btn.textContent = '确定';
+//		round = 0;
+//		Result.textContent = '炸弹未激活（ zzz...';
+//		Round.textContent = '';
+//		TriedAns.textContent = '';
+//		Solve.textContent = '';
+//		Input.value = '';
+//		Input.focus();
+//		R_ange.textContent = '区间：' + '[' + LEFT + ', ' + RIGHT + ']';
+//		count =  TIME;
+//		Time.textContent = '剩余时间：' + count + ' s';
+//		ongame = true;
+//		flag = setInterval(telltime, 1000);
+//	}
 	
 	function start() {
+		Result.textContent = '炸弹激活了！！！'
 		count =  TIME;
 		Time.textContent = '剩余时间：' + count + ' s';
 		ongame = true;
@@ -151,13 +158,14 @@ window.onload = function() {
 		ans = initialize_ans();
 		round = 0;
 		
-		Result.textContent = '';
-		Round.textContent = '';
+		Bomb.textContent = BOMB[mode];
+		Result.textContent = '炸弹未激活（ zzz...';
+		Round.textContent = '机会次数：10';
 		TriedAns.textContent = '';
-		Time.textContent = '';
+		Time.textContent = '时间：' + TIME + 's';
 		Input.value = '';
 		Input.focus();
-		R_ange.textContent = '[' + LEFT + ', ' + RIGHT + ']';
+		R_ange.textContent = '区间：' + '[' + LEFT + ', ' + RIGHT + ']';
 	}
 	
 	function tellans() {
@@ -178,10 +186,10 @@ window.onload = function() {
 				clearInterval(flag);
 			}
 			else {
-//				Setting.data.toggle = '';
-				Setting.setAttribute('data-toggle', '');
+//				Bomb.data.toggle = '';
+				Bomb.setAttribute('data-toggle', '');
 				setTimeout(function () {
-					Setting.setAttribute('data-toggle', 'modal');
+					Bomb.setAttribute('data-toggle', 'modal');
 				}, 10);
 				return;
 			}
@@ -226,13 +234,13 @@ window.onload = function() {
 			}
 		}
 		initialize();
-		Btn.textContent = '开始';
+		Btn.textContent = '激活';
 	}
 	
 	Btn.addEventListener('click', run);
 	TellAns.addEventListener('click', tellans);
 	document.addEventListener('keydown', f);
-	Setting.addEventListener('click', recordAndActivate);
+	Bomb.addEventListener('click', recordAndActivate);
 	Cancel.addEventListener('click', resume);
 	Confirm.addEventListener('click', modify);
 	
