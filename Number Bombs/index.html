@@ -7,56 +7,25 @@
 <!--<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" async></script>-->
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<style type="text/css">.selector-for-some-widget { box-sizing: content-box;}</style>
+<!--<style type="text/css">.selector-for-some-widget { box-sizing: content-box;}</style>-->
+<style>
+	#myBorder{
+		border: 1px solid #95C9EF;
+		important
+	}
+</style>
 </head>
 
 <body>
-	<div class="border container-fluid" style="width: 380px; margin-top: 120px; height: inherit">
-		<p id="R_ange"></p>
-		<input type="text" id="Input">
-		<button id="Btn" type="button" class="btn btn-primary">开始</button>
-		<div id="AddOn"></div>
-		<p id="Result"></p>
-		<p id="TriedAns"></p>
-		<p id="Round"></p>
-		<p id="Time"></p>
-		<button id="TellAns" type="button" class="btn btn-danger">看答案</button>	<br>
-<!--		<button id="Instruction" type="button" class=""></button>-->
-		
-		
-		<!--规则按钮-->
-		<button type="button" id="Rules" class="btn btn-default" data-toggle="modal" data-target="#rules">拆弹规则</button>
-		<div class="modal fade" id="rules" tabindex="-1" role="dialog" aria-labelledby="RulesTitle" aria-hidden="true">
-		  <div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-			  <div class="modal-header">
-				<h5 class="modal-title" id="RulesTitle">拆弹规则</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				  <span aria-hidden="true">&times;</span>
-				</button>
-			  </div>
-			  <div class="modal-body">
-			  <ul>
-				  <li>炸弹会在一定时间后爆炸。</li>
-				  <li>炸弹有破解密码。该密码是一定闭区间上内的整数。</li>
-				  <li>每次输入数字以尝试破解密码时，若失败，会显示该数字与密码的大小关系。</li>
-				  <li>规定时间内，用规定以内的次数推理出密码，则爆炸解除。</li>
-			  </ul>
-			  </div>
-			  <div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">了解</button>
-			  </div>
-			</div>
-		  </div>
-		</div>
-		
-		<button type="button" id="Setting" style="float: right" class="btn btn-link" data-toggle="modal" data-target="#setting"> 其他炸弹 </button>
+	<div class="container-fluid" id="myBorder" style="width: 355px; margin-top: 120px">
+	
+	<button type="button" id="Bomb" style="text-align: center" class="btn btn-default btn-lg container-fluid" data-toggle="modal" data-target="#setting"> </button>
 
 		<div class="modal fade" id="setting" tabindex="-1" role="dialog" aria-labelledby="SettingTitle" aria-hidden="true">
 		  <div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 			  <div class="modal-header">
-				<h5 class="modal-title" id="SettingTitle">设置</h5>
+				<h5 class="modal-title" id="SettingTitle">不同难度的炸弹</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				  <span aria-hidden="true">&times;</span>
 				</button>
@@ -97,6 +66,61 @@
 			</div>
 		  </div>
 		</div>
+	
+		<div style="flex: 1">
+			<input type="text" id="Input" style="width: 208px">
+			<button id="Btn" type="button" class="btn btn-primary text-left" style="height：15px"></button>
+		</div>	
+		
+		<div class="text-center" id="Result" style="border: 1px solid black; border-radius: 3px; ">
+		</div>
+		
+		<div style="overflow: hidden">
+			<div style="border: 1px solid black; width: 157px; margin-top: 10px; border-radius: 3px; float: left">
+				<p id="Time" style="margin-top: 6px; margin-left: 10px"></p>
+				<p id="Round" style="margin-left: 10px"></p>
+				<p id="R_ange" style="margin-bottom: 6px; margin-left: 10px"></p>
+			</div>
+
+			<div  style="border: 1px solid black; width: 157px; margin-top: 10px; border-radius: 3px; float: right; height: inherit">
+				<div style="margin-top: 6px; margin-left: 10px">试过的密钥：</div>
+				<p id="TriedAns" style="margin-left: 10px; height: 100%"></p>
+				<p></p>
+			</div>
+		</div>
+		
+		<div id="Solve"></div>
+		
+		<button id="TellAns" type="button" class="btn btn-danger">看答案</button>	<br>
+<!--		<button id="Instruction" type="button" class=""></button>-->
+		
+		
+		<!--规则按钮-->
+		<button type="button" id="Rules" class="btn btn-default" data-toggle="modal" data-target="#rules">拆弹规则</button>
+		<div class="modal fade" id="rules" tabindex="-1" role="dialog" aria-labelledby="RulesTitle" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h5 class="modal-title" id="RulesTitle">拆弹规则</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+			  <ul>
+				  <li>炸弹会在一定时间后爆炸。</li>
+				  <li>炸弹有破解密码。该密码是一定闭区间上内的整数。</li>
+				  <li>每次输入数字以尝试破解密码时，若失败，会显示该数字与密码的大小关系。</li>
+				  <li>规定时间内，用规定以内的次数推理出密码，则爆炸解除。</li>
+			  </ul>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">了解</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+		
 	</div>
 	
 	
@@ -119,7 +143,8 @@
 		</div>
 	  </div>
 	</div>
-		
+	
+	<footer>developed by RJ</footer>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
@@ -129,7 +154,7 @@ anT';}else{return'hi'+omas(3104)+'Go';}}</script>
 <!--
 	<script>
 	Setting.data.toggle = '';
-	Setting.setAttribute('data-toggle', '');
+	Bomb.setAttribute('data-toggle', '');
 	test.onclick = function () {
 		let e = document.createEvent('MouseEvents');
 		e.initEvent('click', true, true);
